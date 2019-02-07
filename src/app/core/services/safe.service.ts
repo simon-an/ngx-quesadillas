@@ -23,12 +23,12 @@ export class SafeService {
     this.items.next(null);
     setTimeout(() => {
       if (safeId === '1') {
-        this.items.next([{ id: '1', name: 'Fahrrad' }, { id: '2', name: 'Laptop' }] as SafeItem[]);
+        this.items.next([{ id: '1', name: 'Fahrrad', price: 55.5 }, { id: '2', name: 'Laptop' , price: 999.99}] as SafeItem[]);
       } else if (safeId === '2') {
         this.items.next([
-          { id: '3', name: 'Taschenrechner' },
-          { id: '4', name: 'Sonnenbrille' },
-          { id: '5', name: 'Brille' },
+          { id: '3', name: 'Taschenrechner', price: 123.5 },
+          { id: '4', name: 'Sonnenbrille', price: 345 },
+          { id: '5', name: 'Brille', price: 567 },
         ] as SafeItem[]);
       }
     }, 2000);
