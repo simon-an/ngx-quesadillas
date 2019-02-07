@@ -3,7 +3,7 @@ import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core
 import { SafeService } from '~core/services';
 import { SafeItem, Safe } from '~core/model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, withLatestFrom } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { AddSafeItemDialogComponent } from '../add-safe-item-dialog/add-safe-item-dialog.component';
 
@@ -27,6 +27,18 @@ export class SafePageComponent implements OnInit {
   }
 
   addSafeItem() {
-    this.dialogService.open(AddSafeItemDialogComponent);
+    const dialogRef = this.dialogService.open(AddSafeItemDialogComponent, {
+      height: '400px',
+      width: '600px',
+    });
+    dialogRef
+      .afterClosed()
+      .pipe(withLatestFrom(this.safe$))
+      .subscribe(([result, safe]: [SafeItem, Safe]) => {
+        console.log(`Dialog result: ${result}`);
+        if (result) {
+          this.service.addItem(safe.id, result);
+        }
+      });
   }
 }

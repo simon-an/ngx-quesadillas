@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { SafeService } from './safe.service';
 import { filter, delay } from 'rxjs/operators';
+import { SafeItem } from '~core/model';
 
 describe('SafeService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
@@ -89,4 +90,17 @@ describe('SafeService', () => {
         done();
       });
   });
+  // it('test add item', (done: DoneFn) => {
+  //   const service: SafeService = TestBed.get(SafeService);
+
+  //   service.addItem('1', { name: 'foobar' } as SafeItem);
+  //   service
+  //     .getItems('1')
+  //     .pipe(filter(Boolean))
+  //     .subscribe(items => {
+  //       expect(items.length).toEqual(1);
+  //       expect(items[0].name).toEqual('foobar');
+  //       done();
+  //     });
+  // });
 });

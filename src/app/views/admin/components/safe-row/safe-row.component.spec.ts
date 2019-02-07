@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SafeRowComponent } from './safe-row.component';
+import { MatIconModule, MatListModule } from '@angular/material';
 
 describe('SafeRowComponent', () => {
   let component: SafeRowComponent;
@@ -8,6 +9,7 @@ describe('SafeRowComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [MatIconModule, MatListModule],
       declarations: [ SafeRowComponent ]
     })
     .compileComponents();
