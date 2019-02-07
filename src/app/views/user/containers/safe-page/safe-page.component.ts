@@ -4,6 +4,8 @@ import { SafeService } from '~core/services';
 import { SafeItem, Safe } from '~core/model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
+import { AddSafeItemDialogComponent } from '../add-safe-item-dialog/add-safe-item-dialog.component';
 
 @Component({
   templateUrl: './safe-page.component.html',
@@ -15,7 +17,7 @@ export class SafePageComponent implements OnInit {
   items$: Observable<SafeItem[]>;
   isCustomer = true; // TODO provide through dependency injection
 
-  constructor(private activatedRoute: ActivatedRoute, private service: SafeService) {}
+  constructor(private activatedRoute: ActivatedRoute, private service: SafeService, private dialogService: MatDialog) {}
 
   ngOnInit() {
     this.safe$ = this.activatedRoute.paramMap.pipe(
@@ -24,4 +26,7 @@ export class SafePageComponent implements OnInit {
     this.items$ = this.safe$.pipe(switchMap((safe: Safe) => this.service.getItems(safe.id)));
   }
 
+  addSafeItem() {
+    this.dialogService.open(AddSafeItemDialogComponent);
+  }
 }
