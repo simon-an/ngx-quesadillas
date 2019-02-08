@@ -8,9 +8,10 @@ import { HomeLandingPageComponent } from './home-landing-page/home-landing-page.
 import { LayoutModule } from '~layout/layout.module';
 import { RegisterFormComponent } from './components/register-form/register-form.component';
 import { AdminEmailValidatorDirective } from './directives/admin-email-validator.directive';
+import { UserExistsValidatorDirective } from './directives/user-exists-validator.directive';
 
 @NgModule({
-  declarations: [HomeLandingPageComponent, RegisterFormComponent, AdminEmailValidatorDirective],
+  declarations: [HomeLandingPageComponent, RegisterFormComponent, AdminEmailValidatorDirective, UserExistsValidatorDirective],
   imports: [
     CommonModule,
     HomeRoutingModule,

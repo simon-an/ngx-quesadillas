@@ -10,7 +10,7 @@
   <mat-form-field>
     <input
       email
-      coolUserExists
+      coolUserExistsValidator
       required
       name="email"
       [(ngModel)]="state.email"
@@ -21,7 +21,7 @@
       [ngModelOptions]="{ updateOn: 'blur' }"
     />
     <mat-error *ngIf="email?.errors?.userExists">
-      user does not exists
+      Email address already exists.
     </mat-error>
     <mat-error *ngIf="email?.errors?.email">
       Please enter a valid email address

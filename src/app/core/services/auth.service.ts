@@ -72,7 +72,7 @@ export class AuthService {
     return timer(300)
       .pipe(
         map(time => {
-          if (Math.random() * 100 < 20) {
+          if (Math.random() * 100 < 80) {
             return true;
           } else {
             return false;
