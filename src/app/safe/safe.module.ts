@@ -5,11 +5,21 @@ import { MatDividerModule, MatListModule, MatIconModule } from '@angular/materia
 import { RouterModule } from '@angular/router';
 import { ItemListComponent } from './components/item-list/item-list.component';
 
-const Imports = [RouterModule, LayoutModule, MatDividerModule, MatListModule, MatIconModule];
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
+const Imports = [RouterModule, LayoutModule, MatDividerModule, MatListModule, MatIconModule, TranslateModule];
 const Declarations = [ItemListComponent];
 @NgModule({
   declarations: [...Declarations],
-  imports: [CommonModule, ...Imports],
+  imports: [
+    CommonModule,
+    ...Imports,
+  ],
   exports: [...Declarations, ...Imports],
 })
-export class SafeModule {}
+export class SafeModule {
+  constructor(translateService: TranslateService) {
+    translateService.setDefaultLang('de');
+    translateService.use('de');
+  }
+}

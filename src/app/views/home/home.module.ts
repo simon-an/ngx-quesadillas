@@ -1,3 +1,4 @@
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
 import { MatListModule, MatInputModule, MatFormFieldModule, MatSelectModule } from '@angular/material';
 import { NgModule } from '@angular/core';
@@ -11,7 +12,12 @@ import { AdminEmailValidatorDirective } from './directives/admin-email-validator
 import { UserExistsValidatorDirective } from './directives/user-exists-validator.directive';
 
 @NgModule({
-  declarations: [HomeLandingPageComponent, RegisterFormComponent, AdminEmailValidatorDirective, UserExistsValidatorDirective],
+  declarations: [
+    HomeLandingPageComponent,
+    RegisterFormComponent,
+    AdminEmailValidatorDirective,
+    UserExistsValidatorDirective,
+  ],
   imports: [
     CommonModule,
     HomeRoutingModule,
@@ -21,6 +27,13 @@ import { UserExistsValidatorDirective } from './directives/user-exists-validator
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    TranslateModule,
   ],
+  exports: [TranslateModule],
 })
-export class HomeModule {}
+export class HomeModule {
+  constructor(translateService: TranslateService) {
+    translateService.setDefaultLang('de');
+    translateService.use('de');
+  }
+}

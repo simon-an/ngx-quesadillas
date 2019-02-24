@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
+import { Observable, merge, Subject, BehaviorSubject } from 'rxjs';
 import { Component, OnInit, ChangeDetectionStrategy, Input } from '@angular/core';
 import { SafeService } from '~core/services';
 import { SafeItem, Safe } from '~core/model';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, withLatestFrom, filter, exhaustMap, concatMap, mergeMap, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material';
 import { AddSafeItemDialogComponent } from '../add-safe-item-dialog/add-safe-item-dialog.component';
 
@@ -15,6 +15,8 @@ import { AddSafeItemDialogComponent } from '../add-safe-item-dialog/add-safe-ite
 export class SafePageComponent implements OnInit {
   safe$: Observable<Safe>;
   items$: Observable<SafeItem[]>;
+  trigger$: Subject<any> = new Subject<any>();
+  loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   isCustomer = true; // TODO provide through dependency injection
 
   constructor(private activatedRoute: ActivatedRoute, private service: SafeService, private dialogService: MatDialog) {}
@@ -23,7 +25,19 @@ export class SafePageComponent implements OnInit {
     this.safe$ = this.activatedRoute.paramMap.pipe(
       switchMap((params: ParamMap) => this.service.getSafe(params.get('id')))
     );
-    this.items$ = this.safe$.pipe(switchMap((safe: Safe) => this.service.getItems(safe.id)));
+    const fire$ = merge(this.safe$, this.trigger$);
+    fire$.subscribe(() => {
+      this.loading$.next(true);
+    });
+
+    this.items$ = fire$.pipe(
+      withLatestFrom(this.safe$),
+      switchMap(([trigger, safe]: [any, Safe]) => this.service.getItems(safe.id))
+    );
+
+    this.items$.subscribe(() => {
+      this.loading$.next(false);
+    });
   }
 
   addSafeItem() {
@@ -37,7 +51,12 @@ export class SafePageComponent implements OnInit {
       .subscribe(([result, safe]: [SafeItem, Safe]) => {
         console.log(`Dialog result: ${result}`);
         if (result) {
-          this.service.addItem(safe.id, result);
+          result.safeId = safe.id;
+          const result$ = this.service.addItem(safe.id, result);
+          result$.subscribe(item => {
+            // console.log('new item id: ', item.id);
+            this.trigger$.next(item.id);
+          });
         }
       });
   }

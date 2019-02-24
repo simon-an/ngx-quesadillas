@@ -9,14 +9,21 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SafeService {
   private readonly safesUrl = '/api/safes';
+  private readonly itemsUrl = '/api/items';
 
   private safes: ReplaySubject<Safe[]> = new ReplaySubject<Safe[]>();
-  private items: Subject<SafeItem[]> = new Subject<SafeItem[]>();
 
   constructor(private http: HttpClient) {
+    // interval(5000)
     timer(1000)
-      .pipe(concatMapTo(this.loadSafes()))
+      .pipe(
+        // startWith(0),
+        concatMapTo(this.loadSafes())
+        // take(1)
+      )
       .subscribe(this.safes);
+
+    this.safes.subscribe(safes => console.log('safes updated:', safes));
   }
 
   getSafe(safeId: string): Observable<Safe> {
@@ -45,10 +52,6 @@ export class SafeService {
 
   getItems(safeId: string): Observable<SafeItem[]> {
     const result$ = this.http.get(this.safesUrl + `/${safeId}/items`).pipe(map((items: SafeItem[]) => items));
-    result$.subscribe(items => {
-      // console.log('items loaded ....', items);
-      this.items.next(items);
-    });
     return result$;
   }
 }
