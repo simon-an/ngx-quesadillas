@@ -3,9 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { SafeService } from './safe.service';
 import { filter, delay } from 'rxjs/operators';
 import { SafeItem } from '~core/model';
+import { HttpClientModule } from '@angular/common/http';
 
 describe('SafeService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({
+    imports: [HttpClientModule],
+  }));
 
   it('should be created', () => {
     const service: SafeService = TestBed.get(SafeService);

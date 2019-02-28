@@ -2,6 +2,7 @@ import { MatListModule } from '@angular/material';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ItemListComponent } from './item-list.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ItemListComponent', () => {
   let component: ItemListComponent;
@@ -9,7 +10,7 @@ describe('ItemListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatListModule],
+      imports: [MatListModule, TranslateModule.forRoot()],
       declarations: [ ItemListComponent ]
     })
     .compileComponents();

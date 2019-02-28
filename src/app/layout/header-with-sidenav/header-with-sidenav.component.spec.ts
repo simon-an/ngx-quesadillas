@@ -10,6 +10,7 @@ import {
 } from '@angular/material';
 
 import { HeaderWithSidenavComponent } from './header-with-sidenav.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderWithSidenavComponent', () => {
   let component: HeaderWithSidenavComponent;
@@ -26,6 +27,7 @@ describe('HeaderWithSidenavComponent', () => {
         MatListModule,
         MatSidenavModule,
         MatToolbarModule,
+        TranslateModule.forRoot()
       ]
     }).compileComponents();
   }));
